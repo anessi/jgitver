@@ -508,6 +508,47 @@ public class Scenarios {
                 .getScenario();
     }
 
+    /**
+     * Builds repository with a feature branch that contains less commits than the master branch
+     * <pre>
+     * {@code
+     * *   318c3c9 (HEAD -> master) M2 :: merge F into H
+     * |\
+     * * | a50dde7 content H
+     * * | 4d841f6 content G
+     * | * 368e6d8 (b2) content F
+     * * |   ed0a74c M1 :: merge E into D
+     * |\ \
+     * | * | 0d42532 (b1) content E
+     * * | | 4a2582a content D
+     * * | | 5fcc09c content C
+     * | |/
+     * * | fe753dd content B
+     * |/
+     * * d74b251 (tag: 1.0.0) content A
+     * }
+     * </pre>
+     * @return the scenario object corresponding to the above git repository
+     */
+    public static Scenario s17_feature_branches_with_shorter_path() {
+        return new ScenarioBuilder()
+                .commit("content", "A")
+                .tag("1.0.0")
+                .commit("content", "B")
+                .commit("content", "C")
+                .commit("content", "D")
+                .branchOnAppId("b1","A")
+                .commit("content", "E")
+                .branchOnAppId("b2","A")
+                .commit("content", "F")
+                .master()
+                .merge("E", "M1")
+                .commit("content", "G")
+                .commit("content", "H")
+                .merge("F", "M2")
+                .getScenario();
+    }
+
     public static class Scenario {
         private File repositoryLocation;
         private Map<String, ObjectId> commits;
